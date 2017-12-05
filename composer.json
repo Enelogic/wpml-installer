@@ -1,0 +1,29 @@
+{
+  "name": "enelogic/wpml-installer",
+  "description": "An install helper for Wordpress Multilingual (WPML), based of Philipp Baschke it's plugin to install ACFPro",
+  "type": "composer-plugin",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Wesley Coppens",
+      "email": "wesley@enelogic.com"
+    }
+  ],
+  "keywords": [
+    "wordpress", "composer", "wp", "plugin", "wpml", "env"
+  ],
+  "require": {
+    "php": ">=5.5",
+    "composer-plugin-api": "^1.0",
+    "vlucas/phpdotenv": "^2.2"
+  },
+  "require-dev": {
+    "composer/composer": "1.0.*",
+  },
+  "autoload": {
+    "psr-4": { "Enelogic\\WPMLInstaller\\": "src/WPMLInstaller" }
+  },
+  "extra": {
+    "class": "Enelogic\\WPMLInstaller\\Plugin"
+  }
+}
