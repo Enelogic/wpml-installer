@@ -12,7 +12,7 @@ use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Plugin\PreFileDownloadEvent;
 use Dotenv\Dotenv;
-use Enelogic\WPMLInstaller\Exceptions\MissingKeyException
+use Enelogic\WPMLInstaller\Exceptions\MissingKeyException;
 
 /**
  * A composer plugin that makes installing WPML possible
@@ -103,10 +103,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            PackageEvents::PRE_PACKAGE_INSTALL => 'addVersion',
-            PackageEvents::PRE_PACKAGE_UPDATE => 'addVersion',
-            PackageEvents::PRE_PACKAGE_INSTALL => 'addDownloadId',
-            PackageEvents::PRE_PACKAGE_UPDATE => 'addDownloadId',
+            PackageEvents::PRE_PACKAGE_INSTALL => [['addVersion'], ['addDownloadId']],
+            PackageEvents::PRE_PACKAGE_UPDATE => [['addVersion'], ['addDownloadId']],
             PluginEvents::PRE_FILE_DOWNLOAD => [ 'addKeyAndUserId', -1 ],
         ];
     }
@@ -130,7 +128,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
         if (array_key_exists($package->getName(), self::WPML_PACKAGES)) {
             $version = $this->validateVersion($package->getPrettyVersion(), $package->getName());
-            $package->setDiestUrl(
+            $package->setDistUrl(
                 $this->addParameterToUrl($package->getDistUrl(), 'version', $version)
             );
         }
@@ -175,7 +173,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     {
         $processedUrl = $event->getProcessedUrl();
 
-        if ($this->isAcfProPackageUrl($processedUrl)) {
+        if ($this->isWpmlPackageUrl($processedUrl)) {
             $rfs = $event->getRemoteFilesystem();
 
             $processedUrl = $this->addParameterToUrl($processedUrl, 'subscription_key', $this->getKeyFromEnv());
