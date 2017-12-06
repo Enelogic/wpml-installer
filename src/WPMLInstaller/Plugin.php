@@ -59,7 +59,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     /**
      * The url where WPML can be downloaded (without version and key)
      */
-    const WPML_PACKAGE_URL = 'https://wpml.org/?';
+    const WPML_PACKAGE_URL = 'https://wpml.org/';
 
     /**
      * @access protected
