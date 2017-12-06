@@ -211,7 +211,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      * Validate that the version is an exact major.minor.patch.optional version
      *
      * The url to download the code for the package only works with exact
-     * version numbers with 3 or 4 digits: e.g. 1.2.3 or 1.2.3.4
+     * version numbers with 2, 3 or 4 digits: e.g. 1.21.2.3 or 1.2.3.4
      *
      * @access protected
      * @param string $version The version that should be validated
@@ -223,7 +223,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     {
         // \A = start of string, \Z = end of string
         // See: http://stackoverflow.com/a/34994075
-        $major_minor_patch_optional = '/\A\d\.\d\.\d{1,2}(?:\.\d)?\Z/';
+        $major_minor_patch_optional = '/\A\d\.\d(?:\.\d{1,2})?(?:\.\d)?\Z/';
         if (!preg_match($major_minor_patch_optional, $version)) {
             throw new \UnexpectedValueException(
                 'The version constraint of ' . $packageName .
