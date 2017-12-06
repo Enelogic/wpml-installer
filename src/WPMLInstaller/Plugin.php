@@ -59,6 +59,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     /**
      * The url where WPML can be downloaded (without version and key)
      */
+    const DUMMY_PACKAGE_URL = 'https://httpbin.org/status/400';
+
     const WPML_PACKAGE_URL = 'https://wpml.org/';
 
     /**
@@ -179,6 +181,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             $processedUrl = $this->addParameterToUrl($processedUrl, 'subscription_key', $this->getKeyFromEnv());
             $processedUrl = $this->addParameterToUrl($processedUrl, 'user_id', $this->getUserIdFromEnv());
 
+            $processedUrl = str_replace(self::DUMMY_PACKAGE_URL, self::WPML_PACKAGE_URL, $processedUrl);
+
             $acfRfs = new RemoteFilesystem(
                 $processedUrl,
                 $this->io,
@@ -243,7 +247,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     protected function isWpmlPackageUrl($url)
     {
-        return strpos($url, self::WPML_PACKAGE_URL) !== false;
+        return strpos($url, self::DUMMY_PACKAGE_URL) !== false;
     }
 
     /**
